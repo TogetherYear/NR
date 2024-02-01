@@ -15,5 +15,8 @@ napi-derive = "2.12.2"
 napi-build = "2.0.1"
 
 [profile.release]
+panic = "abort"
+codegen-units = 1
 lto = true
-strip = "symbols"
+opt-level = "s"
+strip = true
