@@ -17,6 +17,6 @@
         "node": ">= 10"
     },
     "scripts": {
-        "build": "napi build --platform --release"
+        "build": "napi build --platform --release ./dist"
     }
 }
