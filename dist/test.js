@@ -10,7 +10,13 @@ setTimeout(() => {
 
     setTimeout(() => {
 
-        p.setButtonClick(p.MosueButton.Right, 100)
+        p.setButtonClick(p.MosueButton.Left, 100)
+
+        setTimeout(() => {
+
+            p.writeText("TSingleton")
+
+        }, 2000);
 
     }, 2000);
 

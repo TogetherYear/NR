@@ -66,16 +66,9 @@ pub fn GetCurrentPositionColor() -> Color {
 }
 
 #[napi]
-pub fn WriteText(content: String, paste: bool) {
+pub fn WriteText(content: String) {
     let mut e = Enigo::new();
-    match paste {
-        true => {
-            e.key_down(enigo::Key::Control);
-            e.key_click(enigo::Key::V);
-            e.key_up(enigo::Key::Control);
-        }
-        false => e.key_sequence(content.as_str()),
-    }
+    e.key_sequence(content.as_str());
 }
 
 #[napi]

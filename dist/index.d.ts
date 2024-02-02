@@ -10,7 +10,7 @@ export function setButtonToggle(button: MosueButton, down: boolean): void
 export function setMouseScroll(direction: ScrollDirection, clicks: number): void
 export function getColorFromPosition(x: number, y: number): Color
 export function getCurrentPositionColor(): Color
-export function writeText(content: string, paste: boolean): void
+export function writeText(content: string): void
 export function setKeysToggle(keys: Array<ToggleKey>): void
 export function setKeysClick(keys: Array<KeyboardKey>): void
 export const enum ScrollDirection {
