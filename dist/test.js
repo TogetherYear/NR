@@ -1,10 +1,4 @@
-const path = require('path')
-
 const p = require('./NR.win32-x64-msvc.node')
-
-const c = p.GetCurrentPositionColor()
-
-console.log(c)
 
 setTimeout(() => {
 
