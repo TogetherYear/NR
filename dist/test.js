@@ -1,20 +1,22 @@
+const path = require('path')
+
 const p = require('./NR.win32-x64-msvc.node')
 
-const c = p.getCurrentPositionColor()
+const c = p.GetCurrentPositionColor()
 
 console.log(c)
 
 setTimeout(() => {
 
-    p.setMousePosition(100, 200)
+    p.SetMousePosition(100, 200)
 
     setTimeout(() => {
 
-        p.setButtonClick(p.MosueButton.Left, 100)
+        p.SetButtonClick(p.MosueButton.Left, 100)
 
         setTimeout(() => {
 
-            p.writeText("TSingleton")
+            p.WriteText("TSingleton")
 
         }, 2000);
 
