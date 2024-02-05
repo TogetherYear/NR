@@ -128,7 +128,7 @@ export function GetAllMonitors(): Array<Monitor>
 export function GetMonitorFromPoint(x: number, y: number): Monitor
 export function GetCurrentMouseMonitor(): Monitor
 export function GetPrimaryMonitor(): Monitor
-export function CreateStaticFileServe(path: string, onOpen: (...args: any[]) => any): void
+export function CreateStaticFileServe(path: string, onOpen: () => void): void
 export function GetWallpaper(): string
 export function SetWallpaper(path: string, mode: WallpaperMode): void
 export const enum WallpaperMode {
@@ -140,7 +140,7 @@ export const enum WallpaperMode {
   Tile = 5
 }
 export function GetAllWindows(): Array<Window>
-export class Monitor {
+export abstract class Monitor {
   id: number
   name: string
   x: number
@@ -151,10 +151,9 @@ export class Monitor {
   scaleFactor: number
   frequency: number
   isPrimary: boolean
-  constructor(id: number, name: string, x: number, y: number, width: number, height: number, rotation: number, scaleFactor: number, frequency: number, isPrimary: boolean)
   Capture(path: string, format: ImageFormat): boolean
 }
-export class Window {
+export abstract class Window {
   id: number
   title: string
   appName: string
@@ -164,6 +163,5 @@ export class Window {
   height: number
   isMinimized: boolean
   isMaximized: boolean
-  constructor(id: number, title: string, appName: string, x: number, y: number, width: number, height: number, isMinimized: boolean, isMaximized: boolean)
   Capture(path: string, format: ImageFormat): boolean
 }
