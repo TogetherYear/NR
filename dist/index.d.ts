@@ -128,6 +128,7 @@ export function GetAllMonitors(): Array<Monitor>
 export function GetMonitorFromPoint(x: number, y: number): Monitor
 export function GetCurrentMouseMonitor(): Monitor
 export function GetPrimaryMonitor(): Monitor
+export function CreateStaticFileServe(path: string, onOpen: (...args: any[]) => any): void
 export function GetWallpaper(): string
 export function SetWallpaper(path: string, mode: WallpaperMode): void
 export const enum WallpaperMode {
