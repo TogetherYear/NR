@@ -5,7 +5,7 @@
 
 export function GetMousePosition(): Point
 export function SetMousePosition(x: number, y: number): void
-export function SetButtonClick(button: MosueButton, delay: number): void
+export function SetButtonClick(button: MosueButton): void
 export function SetButtonToggle(button: MosueButton, down: boolean): void
 export function SetMouseScroll(direction: ScrollDirection, clicks: number): void
 export function GetColorFromPosition(x: number, y: number): Color

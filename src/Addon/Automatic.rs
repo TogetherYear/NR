@@ -1,47 +1,54 @@
-use autopilot::{geometry, mouse};
-
-use enigo::{Enigo, KeyboardControllable};
+use enigo::{Enigo, KeyboardControllable, MouseControllable};
 
 #[napi(js_name = "GetMousePosition")]
 pub fn GetMousePosition() -> Point {
-    let t = mouse::location();
-    Point::New(t.x, t.y)
+    let e = Enigo::new();
+    let t = e.mouse_location();
+    Point::New(t.0, t.1)
 }
 
 #[napi(js_name = "SetMousePosition")]
-pub fn SetMousePosition(x: f64, y: f64) {
-    mouse::move_to(geometry::Point::new(x, y)).unwrap();
+pub fn SetMousePosition(x: i32, y: i32) {
+    let mut e = Enigo::new();
+    e.mouse_move_to(x, y);
 }
 
 #[napi(js_name = "SetButtonClick")]
-pub fn SetButtonClick(button: MosueButton, delay: u32) {
+pub fn SetButtonClick(button: MosueButton) {
+    let mut e = Enigo::new();
     match button {
-        MosueButton::Left => mouse::click(mouse::Button::Left, Some(delay as u64)),
-        MosueButton::Middle => mouse::click(mouse::Button::Middle, Some(delay as u64)),
-        MosueButton::Right => mouse::click(mouse::Button::Right, Some(delay as u64)),
+        MosueButton::Left => e.mouse_click(enigo::MouseButton::Left),
+        MosueButton::Middle => e.mouse_click(enigo::MouseButton::Middle),
+        MosueButton::Right => e.mouse_click(enigo::MouseButton::Right),
     }
 }
 
 #[napi(js_name = "SetButtonToggle")]
 pub fn SetButtonToggle(button: MosueButton, down: bool) {
-    match button {
-        MosueButton::Left => mouse::toggle(mouse::Button::Left, down),
-        MosueButton::Middle => mouse::toggle(mouse::Button::Middle, down),
-        MosueButton::Right => mouse::toggle(mouse::Button::Right, down),
+    let mut e = Enigo::new();
+    let target = match button {
+        MosueButton::Left => enigo::MouseButton::Left,
+        MosueButton::Middle => enigo::MouseButton::Middle,
+        MosueButton::Right => enigo::MouseButton::Right,
+    };
+    match down {
+        true => e.mouse_down(target),
+        false => e.mouse_up(target),
     }
 }
 
 #[napi(js_name = "SetMouseScroll")]
-pub fn SetMouseScroll(direction: ScrollDirection, clicks: u32) {
+pub fn SetMouseScroll(direction: ScrollDirection, clicks: i32) {
+    let mut e = Enigo::new();
     match direction {
-        ScrollDirection::Down => mouse::scroll(mouse::ScrollDirection::Down, clicks),
-        ScrollDirection::Up => mouse::scroll(mouse::ScrollDirection::Up, clicks),
+        ScrollDirection::Down => e.mouse_scroll_y(clicks),
+        ScrollDirection::Up => e.mouse_scroll_y(-clicks),
     }
 }
 
 #[napi(js_name = "GetColorFromPosition")]
-pub fn GetColorFromPosition(x: f64, y: f64) -> Color {
-    let monitor = xcap::Monitor::from_point(x as i32, y as i32).unwrap();
+pub fn GetColorFromPosition(x: i32, y: i32) -> Color {
+    let monitor = xcap::Monitor::from_point(x, y).unwrap();
     let capture = monitor.capture_image().unwrap();
     let pixel = capture.get_pixel_checked(
         ((x as i32) - monitor.x()) as u32,
@@ -55,8 +62,9 @@ pub fn GetColorFromPosition(x: f64, y: f64) -> Color {
 
 #[napi(js_name = "GetCurrentPositionColor")]
 pub fn GetCurrentPositionColor() -> Color {
-    let point = mouse::location();
-    GetColorFromPosition(point.x, point.y)
+    let e = Enigo::new();
+    let point = e.mouse_location();
+    GetColorFromPosition(point.0, point.1)
 }
 
 #[napi(js_name = "WriteText")]
@@ -216,12 +224,12 @@ fn TransformKey(key: KeyboardKey) -> enigo::Key {
 
 #[napi(object)]
 pub struct Point {
-    pub x: f64,
-    pub y: f64,
+    pub x: i32,
+    pub y: i32,
 }
 
 impl Point {
-    pub fn New(x: f64, y: f64) -> Point {
+    pub fn New(x: i32, y: i32) -> Point {
         Point { x, y }
     }
 }
